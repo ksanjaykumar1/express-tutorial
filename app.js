@@ -1,4 +1,6 @@
 const express = require('express')
+//path modules comes with node
+const path = require('path')
 const app = express()
 
 //app.get 
@@ -9,9 +11,12 @@ const app = express()
 //app.use
 //app.listen
 
+//setup static and middleware
+app.use(express.static('./public'))
+
 app.get('/', (req,res)=>{
 
-    res.status(200).send('Home page')
+    res.sendFile(path.resolve(__dirname,'./navbar-app/index.html'))
 })
 
 app.get('/about', (req,res)=>{
