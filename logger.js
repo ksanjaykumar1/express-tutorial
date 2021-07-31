@@ -5,6 +5,7 @@ const logger = (req,res,next)=>{
     const url = req.url;
     const year = new Date().getFullYear();
     console.log(method,url,year)
+    next()
 
 }
 
