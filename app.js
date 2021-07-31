@@ -6,12 +6,22 @@ const logger = require('./logger')
 // middileware should pass it next to middleware or back to the route , terminate by sending message,
 
 // express passes req,res to the middleware
-app.get('/',logger,(req,res)=>{
+app.use(logger)
+
+app.get('/',(req,res)=>{
     res.send('Home')
 })
 
-app.get('/about',logger,(req,res)=>{
+app.get('/about',(req,res)=>{
     res.send('About')
+})
+
+app.get('/api/products',(req,res)=>{
+    res.send('Products')
+})
+
+app.get('/api/items',(req,res)=>{
+    res.send('Items')
 })
 
 app.listen(5000, ()=>{
