@@ -2,6 +2,7 @@ const express = require('express');
 const app = express()
 const logger = require('./logger');
 const authorize=require('./authorize');
+const morgan = require('morgan')
 
 // req=> middleware => res
 // middileware should pass it next to middleware or back to the route , terminate by sending message,
@@ -12,7 +13,9 @@ const authorize=require('./authorize');
 // we can specify logger to specific url sub routes ex: app.use('/api',logger)
 
 //To use pass mutliple middleware in same function use 
-app.use([logger,authorize])
+app.use([logger])
+app.use(morgan('tiny'))
+app.use('/api',authorize)
 app.get('/',(req,res)=>{
     res.send('Home')
 })
