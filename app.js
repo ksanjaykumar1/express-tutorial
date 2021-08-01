@@ -3,28 +3,16 @@ const app = express()
 const morgan = require('morgan')
 
 const people = require('./routes/people')
+const auth = require('./routes/auth')
 
 app.use(morgan('tiny'))
 app.use(express.urlencoded({extended:false}))
-
+// to parse json
+app.use(express.json())
 app.use(express.static('./methods-public'))
 
 app.use('/api/people', people)
-
-// to parse json
-app.use(express.json())
-
-
-
-
-app.post('/login',(req,res)=>{
-    // console.log(req.body.name)
-    const {name}= req.body;
-    if(name){
-        return res.status(200).send(`Welcome ${name}`)
-    }
-    res.status(401).send('please provide valid credentials ')
-})
+app.use('/login',auth)
 
 
 
