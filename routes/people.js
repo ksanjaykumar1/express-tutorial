@@ -1,64 +1,24 @@
 const express = require('express')
 
 const router = express.Router()
-let {people} =require('../data')
 
-router.get('/', (req,res)=>{
-    res.status(200).json({success:true,data:people})
-})
+const {getPeople,createPerson,createPersonPostman,changeNameById,deletePersonById} = require('../controller/people')
 
-router.post('/',(req,res)=>{
-    const {name} =req.body
-    if(!name)
-    {
-        return  res.status(401).json({success:false,msg:'please provide name value'})
-    }
-    
-    res.status(201).json({success:true,person:name})
-})
+// to send all the people object
+router.get('/', getPeople)
 
-router.post('/postman',(req,res)=>{
+// to send back person's name
+router.post('/',createPerson)
 
-    const {name} = req.body
-    if(!name){
-        return res.status(401).json({success:false,msg:'please provide name'})
-    }
-    res.status(200).json({success:true,dat:[...people,name]})
-})
+// to send back people's object along with the name in the body
 
-//
-router.put('/:id',(req,res)=>{
+router.post('/postman',createPersonPostman)
 
-    const {id} = req.params
-    const {name} = req.body
+// to change the name of the person by id
+router.put('/:id',changeNameById)
 
-    let person = people.find((p)=> p.id === Number(id))
-    if(!person){
-        return res.status(404).json({success:false, msg:"person doesn't exit with the id"})
-    }
-    const newPeople =people.map((people)=>{
-        if(person.id=== Number(id)){
-            person.name=name
-        }
-        return people
-    })
-    person.name = name
-    res.status(200).json({success:true, data:newPeople})
+// to delete the person by the id
+router.delete('/:id',deletePersonById)
 
-
-})
-
-router.delete('/:id',(req,res)=>{
-    const {id} =req.params
-    const person = people.find((person)=>person.id ===Number (id))
-
-    if(!person){
-        
-        return res.status(404).json({success:false, msg:`The person with ${id} doesn't exit`})
-    }
-
-    const newPeople = people.filter((person)=>person.id !== Number(id))
-    res.status(200).json({success:true, data:newPeople})
-})
 
 module.exports =router;
